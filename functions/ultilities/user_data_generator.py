@@ -83,3 +83,7 @@ def zipcode():
 def account_type():
     acc_list = ['LOAN', 'SAVINGS', 'CHECKING', 'CHECKING_AND_SAVINGS', 'CREDIT_CARD']
     return random.choice(acc_list)
+
+
+def routing_number():
+    return fake.aba()

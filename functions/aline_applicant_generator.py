@@ -5,6 +5,10 @@ from functions.aline_user_generator import get_bearer_token
 first_name = first_name()
 last_name = last_name()
 
+headers = {"Authorization": get_bearer_token()}
+url = "http://localhost:8080/api/applicants"
+url2 = "http://localhost:8071/applicants"
+
 
 def applicant_form():
     aline_applicant_form = \
@@ -32,21 +36,14 @@ def applicant_form():
 
 
 def generate_applicant(on_off=0):
-    url = "http://localhost:8080/api/applicants"
-    url2 = "http://localhost:8071/applicants"
     if on_off != 0:
-        headers = {"Authorization": get_bearer_token()}
-
         aline_applicant_form = applicant_form()
 
-        post_request(url, url2, aline_applicant_form, headers)
+        return post_request(url, url2, aline_applicant_form, headers)
 
 
 def get_applicant_id():
     applicant_list = []
-    headers = {"Authorization": get_bearer_token()}
-    url = "http://localhost:8080/api/applicants"
-    url2 = "http://localhost:8071/applicants"
 
     response = get_request(url, url2, None, headers).json()
     pages = response['totalPages']

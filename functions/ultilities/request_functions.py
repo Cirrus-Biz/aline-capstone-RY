@@ -20,7 +20,6 @@ def get_request(url, url2=None,  json=None, headers=None):
         return form
     except requests.exceptions.RequestException:
         try:
-
             form = requests.get(url2, json=json, headers=headers)
             return form
         except requests.exceptions.RequestException:
