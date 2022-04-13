@@ -1,16 +1,18 @@
 import requests
 from requests.structures import CaseInsensitiveDict
+from functions.ultilities.request_functions import *
 
 
 def get_bearer_token():
     url = "http://localhost:8080/login"
+    url2 = "http://localhost:8070/login"
 
     aline_login_form = \
         {
             "username": "noodleween",
             "password": "P@ssw0rd"
         }
-    form = requests.post(url, json=aline_login_form)
+    form = post_request(url, url2, aline_login_form)
     return form.headers['Authorization']
 
 

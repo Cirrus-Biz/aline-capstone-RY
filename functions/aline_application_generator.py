@@ -6,6 +6,10 @@ from functions.ultilities.request_functions import *
 first_name = first_name()
 last_name = last_name()
 
+headers = {"Authorization": get_bearer_token()}
+url = "http://localhost:8080/api/applications"
+url2 = "http://localhost:8071/applications"
+
 
 def application_form():
     aline_application_form = \
@@ -37,31 +41,28 @@ def application_form():
     return aline_application_form
 
 
-def existing_applicant_form():
+def existing_applicant_form(num):
+    true = 'true'
     aline_application_form = \
         {
           "applicationType": "CHECKING",
-          "noApplicants": true,
+          "noApplicants": bool(true),
           "applicantIds": [
             num
           ]
         }
+    return aline_application_form
 
 
 def generate_application(on_off=0):
-    url = "http://localhost:8080/api/applications"
-    url2 = "http://localhost:8071/applications"
     if on_off != 0:
         aline_application_form = application_form()
 
-        print(post_request(url, url2, aline_application_form))
+        return post_request(url, url2, aline_application_form)
 
 
 def get_application_id():
     application_list = []
-    headers = {"Authorization": get_bearer_token()}
-    url = "http://localhost:8080/api/applications"
-    url2 = "http://localhost:8071/applications"
 
     response = get_request(url, url2, None, headers).json()
     pages = response['totalPages']
@@ -79,4 +80,6 @@ def get_application_id():
 
 def process_applicants():
     results = list(get_applicant_id() - get_application_id())
-    return results
+    for res in results:
+        form = existing_applicant_form(res)
+        return post_request(url, url2, form, headers)
