@@ -5,7 +5,6 @@ from functions.aline_application_generator import *
 
 def main():
     print(generate_application(1))
-    print(get_member_json())
 
 
 if __name__ == '__main__':

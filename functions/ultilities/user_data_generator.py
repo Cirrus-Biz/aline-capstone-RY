@@ -1,9 +1,9 @@
 import names
 import random
+from RandomWordGenerator import RandomWord
 from faker import Faker
 
 fake = Faker()
-
 
 # "firstName": "string",
 def first_name():
@@ -87,3 +87,15 @@ def account_type():
 
 def routing_number():
     return fake.aba()
+
+
+def merchant_code():
+    code = RandomWord(max_word_size=5, constant_word_size=True)
+    return code.generate()
+
+
+def description():
+    return fake.sentence()
+
+
+
