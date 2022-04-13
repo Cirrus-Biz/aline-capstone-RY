@@ -1,6 +1,5 @@
 import names
 import random
-from random_username.generate import generate_username
 from faker import Faker
 
 fake = Faker()
@@ -54,9 +53,10 @@ def drivers_license():
     return fake.license_plate()
 
 
-# "income": 0, (in cents)
+# "income": 0, (in cents) maximum int size 2147483647
 def income():
-    return "5500000"
+    number = str(random.randint(1000000, 10000000))
+    return number
 
 
 # "address": "string",

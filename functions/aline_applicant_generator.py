@@ -1,36 +1,62 @@
+from functions.ultilities.request_functions import *
 from functions.ultilities.user_data_generator import *
-import requests
+from functions.aline_user_generator import get_bearer_token
 
 first_name = first_name()
 last_name = last_name()
 
 
-def generate_applicant(number_of_applicants=0):
-    for num in range(number_of_applicants):
-        url = "http://localhost:8080/api/applicants"
-        headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZWQiLCJhdXRob3JpdHkiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjQ5MjcxNTI1LCJleHAiOjE2NTA0ODExMjV9.CvrY4PLj6-lONGpfxtL1Uh8de0hblJCLq95NoYZB59M"}
+def applicant_form():
+    aline_applicant_form = \
+        {
+            "firstName": first_name,
+            "middleName": middle_name(),
+            "lastName": last_name,
+            "dateOfBirth": DoB(),
+            "gender": gender(),
+            "email": email(first_name + last_name),
+            "phone": phone(),
+            "socialSecurity": ssn(),
+            "driversLicense": drivers_license(),
+            "income": 2147483647,
+            "address": address(),
+            "city": city(),
+            "state": state(),
+            "zipcode": zipcode(),
+            "mailingAddress": address(),
+            "mailingCity": city(),
+            "mailingState": state(),
+            "mailingZipcode": zipcode()
+        }
+    return aline_applicant_form
 
-        aline_applicant_form = \
-            {
-                "firstName": first_name,
-                "middleName": middle_name(),
-                "lastName": last_name,
-                "dateOfBirth": DoB(),
-                "gender": gender(),
-                "email": email(first_name + last_name),
-                "phone": phone(),
-                "socialSecurity": ssn(),
-                "driversLicense": drivers_license(),
-                "income": income(),
-                "address": address(),
-                "city": city(),
-                "state": state(),
-                "zipcode": zipcode(),
-                "mailingAddress": address(),
-                "mailingCity": city(),
-                "mailingState": state(),
-                "mailingZipcode": zipcode()
-            }
 
-        form = requests.post(url, json=aline_applicant_form, headers=headers)
-        print(form)
+def generate_applicant(on_off=0):
+    url = "http://localhost:8080/api/applicants"
+    url2 = "http://localhost:8071/applicants"
+    if on_off != 0:
+        headers = {"Authorization": get_bearer_token()}
+
+        aline_applicant_form = applicant_form()
+
+        post_request(url, url2, aline_applicant_form, headers)
+
+
+def get_applicant_id():
+    applicant_list = []
+    headers = {"Authorization": get_bearer_token()}
+    url = "http://localhost:8080/api/applicants"
+    url2 = "http://localhost:8071/applicants"
+
+    response = get_request(url, url2, None, headers).json()
+    pages = response['totalPages']
+    for page in range(pages):
+        page = "?page={}".format(page)
+        applications = get_request(url + page, url2 + page, None, headers)
+        response = applications.json()
+        content = response['content']
+        for app_id in content:
+            app_id = app_id['id']
+            applicant_list.append(app_id)
+
+    return set(applicant_list)
