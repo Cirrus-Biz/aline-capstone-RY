@@ -82,4 +82,5 @@ def process_applicants():
     results = list(get_applicant_id() - get_application_id())
     for res in results:
         form = existing_applicant_form(res)
-        return post_request(url, url2, form, headers)
+        print(post_request(url, url2, form, headers))
+
