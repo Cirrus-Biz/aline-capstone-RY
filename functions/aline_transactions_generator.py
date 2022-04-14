@@ -25,9 +25,20 @@ def transaction_form(account_number, transaction_type="DEPOSIT", amount=100):
     return aline_transaction_form
 
 
+def transfer_form(from_id, to_id, amount=100):
+    aline_transfer_form = \
+        {
+          "fromAccountNumber": from_id,
+          "toAccountNumber": to_id,
+          "amount": amount,
+          "memo": description()
+        }
+    return aline_transfer_form
+
+
 def get_account():
     account_num_list = []
-    status_list = []
+    id_list = []
     balance_list = []
     response = get_request(account_url, account_url2, None, headers).json()
     pages = response['totalPages']
@@ -39,15 +50,15 @@ def get_account():
         for account_num in content:
             account_num = account_num['accountNumber']
             account_num_list.append(account_num)
-        for stat in content:
-            stat = stat['status']
-            status_list.append(stat)
+        for acc_id in content:
+            acc_id = acc_id['id']
+            id_list.append(acc_id)
         for balance in content:
             balance = balance['balance']
             balance_list.append(balance)
     account_dict = {
         'account_num': account_num_list,
-        'status': status_list,
+        'id': id_list,
         'balance': balance_list
     }
     return account_dict
@@ -83,3 +94,15 @@ def payment(on_off=0, amount=100):
             print("payment in {}".format(num))
 
 
+def transfer(transfer_from, transfer_to, amount=100):
+    account_dict = get_account()
+    account_ids = account_dict['id']
+    transfer_end = "/transfer"
+    if transfer_from in account_ids:
+        if transfer_to in account_ids:
+            return post_request(transaction_url + transfer_end, transaction_url2 + transfer_end,
+                                transfer_form(transfer_from, transfer_to, amount), headers)
+        else:
+            return "Transfer to id doesn't exist"
+    else:
+        return "Transfer from id doesn't exist"

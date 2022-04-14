@@ -22,7 +22,7 @@ def applicant_form():
             "phone": phone(),
             "socialSecurity": ssn(),
             "driversLicense": drivers_license(),
-            "income": 2147483647,
+            "income": income(),
             "address": address(),
             "city": city(),
             "state": state(),
