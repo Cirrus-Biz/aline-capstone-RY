@@ -9,7 +9,7 @@ from functions.aline_transactions_generator import deposit, withdrawal, payment
 def main():
     # run users and bank microservice (gateway can be run for faster result)
     print(generate_admin())
-    print(get_member_json())
+    print(get_member_json(1))
     # run users microservice (gateway can be run for faster result)
     # run underwriter microservice
     print(generate_application())
