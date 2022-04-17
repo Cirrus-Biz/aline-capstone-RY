@@ -78,9 +78,10 @@ def get_application_id():
     return set(application_list)
 
 
-def process_applicants():
-    results = list(get_applicant_id() - get_application_id())
-    for res in results:
-        form = existing_applicant_form(res)
-        print(post_request(url, url2, form, headers))
+def process_applicants(on_off=0):
+    if on_off != 0:
+        results = list(get_applicant_id() - get_application_id())
+        for res in results:
+            form = existing_applicant_form(res)
+            print(post_request(url, url2, form, headers))
 

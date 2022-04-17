@@ -65,8 +65,8 @@ def get_account():
 
 
 def deposit(on_off=0, amount=100):
-    account_dict = get_account()
     if on_off != 0:
+        account_dict = get_account()
         account_num = account_dict['account_num']
         for num in account_num:
             form = transaction_form(num, amount=amount)
@@ -75,8 +75,8 @@ def deposit(on_off=0, amount=100):
 
 
 def withdrawal(on_off=0, amount=100):
-    account_dict = get_account()
     if on_off != 0:
+        account_dict = get_account()
         account_num = account_dict['account_num']
         for num in account_num:
             form = transaction_form(num, 'WITHDRAWAL', amount)
@@ -85,8 +85,8 @@ def withdrawal(on_off=0, amount=100):
 
 
 def payment(on_off=0, amount=100):
-    account_dict = get_account()
     if on_off != 0:
+        account_dict = get_account()
         account_num = account_dict['account_num']
         for num in account_num:
             form = transaction_form(num, 'PAYMENT', amount)
@@ -94,15 +94,16 @@ def payment(on_off=0, amount=100):
             print("payment in {}".format(num))
 
 
-def transfer(transfer_from, transfer_to, amount=100):
-    account_dict = get_account()
-    account_ids = account_dict['id']
-    transfer_end = "/transfer"
-    if transfer_from in account_ids:
-        if transfer_to in account_ids:
-            return post_request(transaction_url + transfer_end, transaction_url2 + transfer_end,
-                                transfer_form(transfer_from, transfer_to, amount), headers)
+def transfer(transfer_from, transfer_to, amount=100, on_off=0):
+    if on_off != 0:
+        account_dict = get_account()
+        account_ids = account_dict['id']
+        transfer_end = "/transfer"
+        if transfer_from in account_ids:
+            if transfer_to in account_ids:
+                return post_request(transaction_url + transfer_end, transaction_url2 + transfer_end,
+                                    transfer_form(transfer_from, transfer_to, amount), headers)
+            else:
+                return "Transfer to id doesn't exist"
         else:
-            return "Transfer to id doesn't exist"
-    else:
-        return "Transfer from id doesn't exist"
+            return "Transfer from id doesn't exist"
