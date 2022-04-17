@@ -70,8 +70,7 @@ def deposit(on_off=0, amount=100):
         account_num = account_dict['account_num']
         for num in account_num:
             form = transaction_form(num, amount=amount)
-            print(post_request(transaction_url, transaction_url2, form))
-            print("deposited in {}".format(num))
+            return post_request(transaction_url, transaction_url2, form)
 
 
 def withdrawal(on_off=0, amount=100):
@@ -80,8 +79,7 @@ def withdrawal(on_off=0, amount=100):
         account_num = account_dict['account_num']
         for num in account_num:
             form = transaction_form(num, 'WITHDRAWAL', amount)
-            print(post_request(transaction_url, transaction_url2, form))
-            print("withdrawal in {}".format(num))
+            return post_request(transaction_url, transaction_url2, form)
 
 
 def payment(on_off=0, amount=100):
@@ -90,11 +88,10 @@ def payment(on_off=0, amount=100):
         account_num = account_dict['account_num']
         for num in account_num:
             form = transaction_form(num, 'PAYMENT', amount)
-            print(post_request(transaction_url, transaction_url2, form))
-            print("payment in {}".format(num))
+            return post_request(transaction_url, transaction_url2, form)
 
 
-def transfer(transfer_from, transfer_to, amount=100, on_off=0):
+def transfer(on_off=0, transfer_from=0, transfer_to=0, amount=100):
     if on_off != 0:
         account_dict = get_account()
         account_ids = account_dict['id']
