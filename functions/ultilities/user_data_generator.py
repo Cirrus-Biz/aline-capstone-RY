@@ -1,10 +1,9 @@
 import names
 import random
-from random_username.generate import generate_username
+from RandomWordGenerator import RandomWord
 from faker import Faker
 
 fake = Faker()
-
 
 # "firstName": "string",
 def first_name():
@@ -54,9 +53,10 @@ def drivers_license():
     return fake.license_plate()
 
 
-# "income": 0, (in cents)
+# "income": 0, (in cents) maximum int size 2147483647
 def income():
-    return "5500000"
+    number = str(random.randint(1000000, 10000000))
+    return number
 
 
 # "address": "string",
@@ -83,3 +83,19 @@ def zipcode():
 def account_type():
     acc_list = ['LOAN', 'SAVINGS', 'CHECKING', 'CHECKING_AND_SAVINGS', 'CREDIT_CARD']
     return random.choice(acc_list)
+
+
+def routing_number():
+    return fake.aba()
+
+
+def merchant_code():
+    code = RandomWord(max_word_size=5, constant_word_size=True)
+    return code.generate()
+
+
+def description():
+    return fake.sentence()
+
+
+
