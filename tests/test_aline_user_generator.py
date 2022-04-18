@@ -20,3 +20,7 @@ class TestUser(TestCase):
             assert response == 201, text
         elif status_code == 409:
             assert response == 409, text
+
+
+if __name__ == '__main__':
+    unittest.main()

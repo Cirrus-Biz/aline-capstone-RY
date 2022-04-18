@@ -10,9 +10,6 @@ class TestApplication(TestCase):
         self.assertNotEqual(response, "Gateway and Underwriter isn't running")
         self.assertEqual(201, response.status_code)
 
-    def test_process_applicants(self):
-        assert False
-
 
 if __name__ == '__main__':
     unittest.main()
