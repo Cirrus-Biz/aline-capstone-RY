@@ -19,10 +19,10 @@ def main():
     print(generate_bank_address())
     print(generate_branch_address())
     # run transaction and account microservice
-    deposit(1, 10000)
-    withdrawal(1, 600)
-    payment(1, 100)
-    print(transfer(1, 2, 3, 1000))
+    deposit()
+    withdrawal()
+    payment()
+    print(transfer())
 
 
 if __name__ == '__main__':

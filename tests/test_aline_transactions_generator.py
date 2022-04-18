@@ -26,3 +26,7 @@ class TestTransaction(TestCase):
     def test_transfer(self):
         response = transfer(1, 2, 3)
         assert response == 201
+
+
+if __name__ == '__main__':
+    unittest.main()
